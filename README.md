@@ -27,4 +27,4 @@ Initially the application is created with Vite (as it has Typescript and React a
 <br/>
 <br/>
 <br/>
-If you have any questions don't hesitate to [contact](https://www.linkedin.com/in/omarbagaev/) me or correct me
+If you have any questions don't hesitate to contact or correct me
