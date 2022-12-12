@@ -8,13 +8,7 @@ import {
 } from "react";
 import { Customer } from "../types/Index";
 
-type AppState = {
-  isEditing?: boolean;
-  currentCustomer?: Customer;
-  setIsEditing?: (value: boolean) => void;
-  setCurrentCustomerId?: (customer: Customer) => void;
-};
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AppContext = createContext<any>(undefined);
 type AppProviderProps = {
   children: ReactNode;
