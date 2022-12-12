@@ -89,10 +89,20 @@ export const getFormattedOpportunitiesStatus = (status: string) => {
   return capitalizeFirst(lower);
 };
 
+/**
+ * function to check that every property in object has the value
+ * @param obj
+ * @returns true if all property are defined
+ */
 export const isAllDefined = <K extends {}>(obj: K): boolean => {
   return Object.values(obj).every((x) => x);
 };
 
+/**
+ * function to check email validity
+ * @param email
+ * @returns true if email is in correct format
+ */
 export const isValidEmail = (email: string) => {
   return /\S+@\S+\.\S+/.test(email);
 };
