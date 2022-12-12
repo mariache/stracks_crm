@@ -11,7 +11,7 @@ export const MainPage: FC = () => {
     data = [],
     isLoading,
     isFetching,
-    isError,
+    isError
   } = useGetOpportunitiesQuery();
   const [customerModal, setCustomerModal] = useState(false);
   return (

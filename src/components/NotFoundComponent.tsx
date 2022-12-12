@@ -9,7 +9,7 @@ export const NotFoundComponent: FC = () => {
     setTimeout(() => {
       navigate(routes.customers.basePath);
     }, 4000);
-  }, []);
+  }, [navigate]);
 
   return (
     <Box

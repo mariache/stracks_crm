@@ -5,7 +5,7 @@ import {
   Box,
   Typography,
   Fab,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
 
 import { FC, useState } from "react";
@@ -17,18 +17,18 @@ import { StatusChip } from "../components/StatusChip";
 import { capitalizeFirst } from "../components/utils";
 import {
   useGetCustomerByIdQuery,
-  useGetCustomerOpportunitiesQuery,
+  useGetCustomerOpportunitiesQuery
 } from "../services/api";
 
 export const CustomerPage: FC = () => {
-  //could be used from currentCustomer from context
+  // could be used from currentCustomer from context
   const { customerId } = useParams();
   const { data: customer } = useGetCustomerByIdQuery(Number(customerId));
   const {
     data: opportunities,
     isLoading,
     isError,
-    isFetching,
+    isFetching
   } = useGetCustomerOpportunitiesQuery(Number(customerId));
 
   const [opportunityModal, setOpportunityModal] = useState(false);

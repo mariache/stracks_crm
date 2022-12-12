@@ -9,12 +9,12 @@ import {
   Select,
   MenuItem,
   DialogActions,
-  Button,
+  Button
 } from "@mui/material";
 import React, { Dispatch, FC, useState } from "react";
 import { OpportunityStatus } from "../constants";
 import { useAddCustomerOpportunitiyMutation } from "../services/api";
-import { AddOpportunity, Opportunity } from "../types/Index";
+import { AddOpportunity } from "../types/Index";
 
 type OpportunityModalProps = {
   open: boolean;
@@ -24,19 +24,19 @@ type OpportunityModalProps = {
 
 const EMPTY_OPPORTUNITY = {
   name: "",
-  status: "",
+  status: ""
 };
 
 export const OpportunityModal: FC<OpportunityModalProps> = ({
   open,
   setOpen,
-  customerId,
+  customerId
 }) => {
   const [addOpportunity] = useAddCustomerOpportunitiyMutation();
   const [opportunity, setOpportunity] =
     useState<AddOpportunity>(EMPTY_OPPORTUNITY);
 
-  const newOpportunityIsValid: boolean = !!(
+  const newOpportunityIsValid = !!(
     opportunity &&
     opportunity.name &&
     opportunity.status
@@ -57,7 +57,7 @@ export const OpportunityModal: FC<OpportunityModalProps> = ({
           label="Name"
           type="text"
           value={opportunity?.name ?? ""}
-          onChange={(event) =>
+          onChange={event =>
             setOpportunity({ ...opportunity, name: event.target.value })
           }
           fullWidth
@@ -69,7 +69,7 @@ export const OpportunityModal: FC<OpportunityModalProps> = ({
             value={opportunity?.status ?? ""}
             required
             label="Status"
-            onChange={(event) =>
+            onChange={event =>
               setOpportunity({ ...opportunity, status: event.target.value })
             }
           >
@@ -94,7 +94,7 @@ export const OpportunityModal: FC<OpportunityModalProps> = ({
             addOpportunity({
               name: opportunity?.name,
               status: opportunity?.status,
-              customerId: Number(customerId),
+              customerId: Number(customerId)
             });
 
             setOpen(false);

@@ -1,9 +1,8 @@
 import {
   CustomerStatus,
   IncorrectOpportunityStatus,
-  OpportunityStatus,
+  OpportunityStatus
 } from "../constants";
-import { AddCustomer } from "../types/Index";
 
 /**
  *
@@ -44,7 +43,7 @@ export const getColor = (
       return "secondary";
 
     default:
-      return;
+      return undefined;
   }
 };
 
@@ -56,7 +55,7 @@ export const getColor = (
 export const capitalizeFirst = (value: string): string => {
   const split = value.split("-");
   if (split.length > 1) {
-    return split.map((x) => capitalizeFirst(x)).join("-");
+    return split.map(x => capitalizeFirst(x)).join("-");
   }
   return value.charAt(0).toUpperCase() + value.toLowerCase().slice(1);
 };
@@ -83,7 +82,7 @@ export const getFormattedOpportunitiesStatus = (status: string) => {
 
     return result
       .split(" ")
-      .map((x) => capitalizeFirst(x))
+      .map(x => capitalizeFirst(x))
       .join(" ");
   }
   return capitalizeFirst(lower);
@@ -94,8 +93,8 @@ export const getFormattedOpportunitiesStatus = (status: string) => {
  * @param obj
  * @returns true if all property are defined
  */
-export const isAllDefined = <K extends {}>(obj: K): boolean => {
-  return Object.values(obj).every((x) => x);
+export const isAllDefined = <K extends object>(obj: K): boolean => {
+  return Object.values(obj).every(x => x);
 };
 
 /**

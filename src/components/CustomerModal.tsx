@@ -9,14 +9,14 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
+  Select
 } from "@mui/material";
 import { Dispatch, FC, useEffect, useState } from "react";
 import { CustomerStatus } from "../constants";
 import { useCtx } from "../context/AppContext";
 import {
   useAddCustomerMutation,
-  useUpdateCustomerMutation,
+  useUpdateCustomerMutation
 } from "../services/api";
 import { AddCustomer, Customer } from "../types/Index";
 
@@ -30,7 +30,7 @@ const EMPTY_CUSTOMER = {
   email: "",
   status: "",
   phoneNumber: "",
-  createdDate: new Date(),
+  createdDate: new Date()
 };
 
 export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
@@ -40,7 +40,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
     isEditing: isEditMode,
     currentCustomer,
     setCustomer: setCurrentCustomer,
-    setEditMode,
+    setEditMode
   } = useCtx();
   const [customer, setCustomer] = useState<AddCustomer | Customer>(
     EMPTY_CUSTOMER
@@ -56,7 +56,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
     setCustomer({ ...customer, [event.target.id]: event.target.value });
   };
 
-  const newCustomerIsValid: boolean = !!(
+  const newCustomerIsValid = !!(
     customer &&
     customer.name &&
     customer.phoneNumber &&
@@ -115,7 +115,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
             value={customer?.status ?? ""}
             required
             label="Status"
-            onChange={(event) =>
+            onChange={event =>
               setCustomer({ ...customer, status: event.target.value })
             }
           >
@@ -144,7 +144,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
                 email: customer?.email,
                 status: customer?.status,
                 phoneNumber: customer?.phoneNumber,
-                createdDate: isEditMode ? customer?.createdDate : new Date(),
+                createdDate: isEditMode ? customer?.createdDate : new Date()
               });
             } else {
               addCustomer({
@@ -152,7 +152,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
                 email: customer?.email,
                 status: customer?.status,
                 phoneNumber: customer?.phoneNumber,
-                createdDate: isEditMode ? customer?.createdDate : new Date(),
+                createdDate: isEditMode ? customer?.createdDate : new Date()
               });
             }
 

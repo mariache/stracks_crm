@@ -1,4 +1,11 @@
-import { createContext, FC, useState, useContext, ReactNode } from "react";
+import {
+  createContext,
+  FC,
+  useState,
+  useContext,
+  ReactNode,
+  useMemo
+} from "react";
 import { Customer } from "../types/Index";
 
 type AppState = {
@@ -27,17 +34,18 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
     setIsEditing(value);
   };
 
+  const memoizedValue = useMemo(
+    () => ({
+      isEditing,
+      currentCustomer,
+      setEditMode,
+      setCustomer
+    }),
+    [currentCustomer, isEditing]
+  );
+
   return (
-    <AppContext.Provider
-      value={{
-        isEditing,
-        currentCustomer,
-        setEditMode,
-        setCustomer,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={memoizedValue}>{children}</AppContext.Provider>
   );
 };
 

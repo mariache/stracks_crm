@@ -31,6 +31,7 @@ module.exports = {
     "import/prefer-default-export": 0,
     "react/require-default-props" :0,
     "no-restricted-globals": 0,
+    "react/no-unstable-nested-components": 0,
     'prettier/prettier': [
       'error',
       {

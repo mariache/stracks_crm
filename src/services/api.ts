@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Customer, Opportunity } from "../types/Index";
 
@@ -6,57 +7,57 @@ const BASE_URL = "https://xvy4yik9yk.us-west-2.awsapprunner.com/";
 export const api = createApi({
   reducerPath: "spiderTracksApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
+    baseUrl: BASE_URL
   }),
   tagTypes: ["Customer", "Opportunity"],
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getCustomers: builder.query<Customer[], void>({
       query: () => ({ url: "/customers" }),
-      providesTags: (result) => ["Customer"],
+      providesTags: result => ["Customer"]
     }),
     getCustomerById: builder.query<Customer, number>({
-      query: (id) => ({ url: `/customers/${id}` }),
+      query: id => ({ url: `/customers/${id}` })
     }),
     addCustomer: builder.mutation({
-      query: (customer) => ({
+      query: customer => ({
         url: "/customers",
         method: "POST",
-        body: customer,
+        body: customer
       }),
-      invalidatesTags: ["Customer"],
+      invalidatesTags: ["Customer"]
     }),
     updateCustomer: builder.mutation({
       query: ({ id, ...rest }) => ({
         url: `/customers/${id}`,
         method: "PUT",
-        body: rest,
+        body: rest
       }),
-      invalidatesTags: ["Customer"],
+      invalidatesTags: ["Customer"]
     }),
     deleteCustomer: builder.mutation({
-      query: (id) => ({
+      query: id => ({
         url: `/customers/${id}`,
-        method: "DELETE",
+        method: "DELETE"
       }),
-      invalidatesTags: ["Customer"],
+      invalidatesTags: ["Customer"]
     }),
     getCustomerOpportunities: builder.query<Opportunity[], number>({
-      query: (id) => ({ url: `/customers/${id}/opportunities` }),
-      providesTags: (result) => ["Opportunity"],
+      query: id => ({ url: `/customers/${id}/opportunities` }),
+      providesTags: result => ["Opportunity"]
     }),
     getOpportunities: builder.query<Opportunity[], void>({
       query: () => ({ url: "/opportunities" }),
-      providesTags: (result) => ["Opportunity"],
+      providesTags: result => ["Opportunity"]
     }),
     addCustomerOpportunitiy: builder.mutation({
       query: ({ id, ...opportunity }) => ({
         url: `/customers/${id}/opportunities`,
         method: "POST",
-        body: opportunity,
+        body: opportunity
       }),
-      invalidatesTags: ["Opportunity"],
-    }),
-  }),
+      invalidatesTags: ["Opportunity"]
+    })
+  })
 });
 
 export const {
@@ -67,5 +68,5 @@ export const {
   useDeleteCustomerMutation,
   useUpdateCustomerMutation,
   useGetCustomerOpportunitiesQuery,
-  useAddCustomerOpportunitiyMutation,
+  useAddCustomerOpportunitiyMutation
 } = api;

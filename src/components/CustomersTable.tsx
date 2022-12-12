@@ -1,23 +1,23 @@
 import { FC, useState } from "react";
 import {
-  useDeleteCustomerMutation,
-  useGetCustomersQuery,
-} from "../services/api";
-import {
   DataGrid,
   GridActionsCellItem,
   GridColumns,
   GridRenderCellParams,
   GridRowId,
-  GridRowParams,
+  GridRowParams
 } from "@mui/x-data-grid";
-import { Alert, Box, Link, Snackbar } from "@mui/material";
+import { Alert, Box, Snackbar, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+  useDeleteCustomerMutation,
+  useGetCustomersQuery
+} from "../services/api";
 
 import { Header } from "./Header";
 import { Customer } from "../types/Index";
 import { StatusChip } from "./StatusChip";
 import { capitalizeFirst } from "./utils";
-import { useNavigate } from "react-router-dom";
 import { ErrorComponent } from "./ErrorComponent";
 import { useCtx } from "../context/AppContext";
 
@@ -37,12 +37,11 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
   if (isError) return <ErrorComponent />;
 
   const onDelete = (id: GridRowId) => {
+    // eslint-disable-next-line no-alert
     if (confirm("Are you sure?")) {
       onHandleDelete(id);
       setShowToast(true);
     }
-
-    return;
   };
 
   const onEditClick = (customer: Customer) => {
@@ -59,27 +58,26 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
       flex: 1,
       renderCell: (params: GridRenderCellParams<Customer>) => {
         return (
-          <Link
-            component="button"
-            variant="body2"
+          <Button
+            variant="text"
             onClick={() => {
               navigate(`/customers/${params.row.id}`);
             }}
           >
             {params.row.name}
-          </Link>
+          </Button>
         );
-      },
+      }
     },
     {
       field: "phoneNumber",
       headerName: "Phone Number",
-      flex: 1,
+      flex: 1
     },
     {
       field: "email",
       headerName: "Email",
-      flex: 1,
+      flex: 1
     },
     {
       field: "createdDate",
@@ -100,7 +98,7 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
             {params.row.createdDate.toString().split("T")[0]}
           </Box>
         );
-      },
+      }
     },
     {
       field: "status",
@@ -124,7 +122,7 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
             />
           </Box>
         );
-      },
+      }
     },
     {
       field: "actions",
@@ -135,6 +133,7 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
       getActions: (params: GridRowParams<Customer>) => {
         return [
           <GridActionsCellItem
+            key="editCustomerAction"
             showInMenu
             label="Edit"
             className="textPrimary"
@@ -142,16 +141,17 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
             color="inherit"
           />,
           <GridActionsCellItem
+            key="deleteCustomerAction"
             showInMenu
             label="Delete"
             onClick={() => {
               onDelete(params.id);
             }}
             color="inherit"
-          />,
+          />
         ];
-      },
-    },
+      }
+    }
   ];
 
   return (
@@ -167,11 +167,11 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
         height="50vh"
         sx={{
           "& .MuiDataGrid-cell": {
-            borderBottom: "none",
+            borderBottom: "none"
           },
           "& .MuiDataGrid-root .MuiDataGrid-cell:focus": {
-            outline: "none",
-          },
+            outline: "none"
+          }
         }}
       >
         <DataGrid
@@ -179,7 +179,7 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
           rows={data}
           columns={columns}
           pageSize={pageSize}
-          onPageSizeChange={(selectedPageSize) => setPageSize(selectedPageSize)}
+          onPageSizeChange={selectedPageSize => setPageSize(selectedPageSize)}
         />
 
         <Snackbar

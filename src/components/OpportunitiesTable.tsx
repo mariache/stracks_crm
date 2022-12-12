@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { useGetCustomersQuery } from "../services/api";
 import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
+import { useGetCustomersQuery } from "../services/api";
 
 import { Header } from "./Header";
 import { Opportunity } from "../types/Index";
@@ -20,14 +20,9 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
   data = [],
   isLoading,
   isFetching,
-  isError,
+  isError
 }) => {
-  const {
-    data: customersData = [],
-    isLoading: isCustomerLoading,
-    isFetching: isCustomerFetching,
-    isError: isCustomerError,
-  } = useGetCustomersQuery();
+  const { data: customersData = [] } = useGetCustomersQuery();
 
   if (isError) return <ErrorComponent />;
 
@@ -36,7 +31,7 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
     {
       field: "name",
       headerName: "Name",
-      flex: 1,
+      flex: 1
     },
     {
       field: "customerId",
@@ -45,19 +40,19 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
       renderCell: (params: GridRenderCellParams<Opportunity>) => {
         return (
           <Box>
-            {/*Parsing as a number beacuse in the response 
+            {/* Parsing as a number beacuse in the response 
           the types of ids are mixed up  
-          and presented as string and numbers*/}
-            {customersData.find((x) => x.id === Number(params.row.customerId))
+          and presented as string and numbers */}
+            {customersData.find(x => x.id === Number(params.row.customerId))
               ?.name ?? (
-              <Box fontStyle="italic" color={"#ccc"}>
-                {/*Placeholder here because in the response some Opportunuties don't have customers ids*/}
+              <Box fontStyle="italic" color="#ccc">
+                {/* Placeholder here because in the response some Opportunuties don't have customers ids */}
                 No customer associated
               </Box>
             )}
           </Box>
         );
-      },
+      }
     },
     {
       field: "status",
@@ -80,8 +75,8 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
             />
           </Box>
         );
-      },
-    },
+      }
+    }
   ];
 
   return (
@@ -97,11 +92,11 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
         height="50vh"
         sx={{
           "& .MuiDataGrid-cell": {
-            borderBottom: "none",
+            borderBottom: "none"
           },
           "& .MuiDataGrid-root .MuiDataGrid-cell:focus": {
-            outline: "none",
-          },
+            outline: "none"
+          }
         }}
       >
         <DataGrid

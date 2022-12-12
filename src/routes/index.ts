@@ -1,6 +1,6 @@
 export const routes = {
   customers: {
     basePath: "/customers",
-    customer: "/customers/:customerId",
-  },
+    customer: "/customers/:customerId"
+  }
 };
