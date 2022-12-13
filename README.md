@@ -15,6 +15,7 @@ The task was to <em>fetch</em> and <em>display</em> data correctly (UI was not p
 - [ESlint](https://eslint.org/) (Analyzing code problems (AirBnB rules));
 - [React Context API](https://reactjs.org/docs/context.html) (Managing state);
 - [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) (Fetching and caching data);
+- [Husky](https://typicode.github.io/husky/#/) (To run precommit hooks(in this case `yarn eslint` will be run for every commit));
 - [DataGrid MUI](https://mui.com/x/react-data-grid/) (React data table and react data grid with sorting/filtering/pagination functionality);
 - [MUI](https://mui.com/) (UI Library that provides a simple, customizable, and accessible library of React components , and speeds up the development process(in theory though));
 
