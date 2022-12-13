@@ -10,7 +10,8 @@
     "prettier-write": "prettier \"src/**/*.{js,ts,jsx,tsx}\" --write",
     "prettier-check": "prettier \"src/**/*.{js,ts,jsx,tsx}\" --check",
     "eslint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-    "eslint-fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
+    "eslint-fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -39,6 +40,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
+    "husky": "^8.0.0",
     "prettier": "^2.8.1",
     "typescript": "^4.9.3",
     "vite": "^4.0.0"

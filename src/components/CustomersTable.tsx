@@ -13,7 +13,6 @@ import {
   useDeleteCustomerMutation,
   useGetCustomersQuery
 } from "../services/api";
-
 import { Header } from "./Header";
 import { Customer } from "../types/Index";
 import { StatusChip } from "./StatusChip";
