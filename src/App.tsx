@@ -11,6 +11,7 @@ function App() {
   return (
     <Layout>
       <Routes>
+        <Route index element={<MainPage />} />
         <Route path={routes.customers.basePath} element={<MainPage />} />
         <Route path={routes.customers.customer} element={<CustomerPage />} />
         <Route path="*" element={<NotFoundComponent />} />
