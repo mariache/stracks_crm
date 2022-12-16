@@ -42,7 +42,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
     setCustomer: setCurrentCustomer,
     setEditMode
   } = useCtx();
-  const [customer, setCustomer] = useState<AddCustomer | Customer>(
+  const [customer, setCustomer] = useState<AddCustomer | Customer | undefined>(
     EMPTY_CUSTOMER
   );
 
@@ -53,7 +53,11 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
   const onChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setCustomer({ ...customer, [event.target.id]: event.target.value });
+    setCustomer(
+      customer
+        ? { ...customer, [event.target.id]: event.target.value }
+        : undefined
+    );
   };
 
   const newCustomerIsValid = !!(
@@ -116,7 +120,11 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
             required
             label="Status"
             onChange={event =>
-              setCustomer({ ...customer, status: event.target.value })
+              setCustomer(
+                customer
+                  ? { ...customer, status: event.target.value }
+                  : undefined
+              )
             }
           >
             <MenuItem value={CustomerStatus.Active}>

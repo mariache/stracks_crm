@@ -8,6 +8,8 @@ import {
   GridRowParams
 } from "@mui/x-data-grid";
 import { Alert, Box, Snackbar, Button } from "@mui/material";
+import Edit from "@mui/icons-material/Edit";
+import Delete from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import {
   useDeleteCustomerMutation,
@@ -138,6 +140,7 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
             className="textPrimary"
             onClick={() => onEditClick(params.row)}
             color="inherit"
+            icon={<Edit />}
           />,
           <GridActionsCellItem
             key="deleteCustomerAction"
@@ -147,6 +150,7 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
               onDelete(params.id);
             }}
             color="inherit"
+            icon={<Delete />}
           />
         ];
       }
@@ -175,6 +179,10 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
       >
         <DataGrid
           loading={isLoading || isFetching}
+          onSelectionModelChange={ids => {
+            const selected = data.find(customer => customer.id === ids[0]);
+            if (selected) setCustomer(selected);
+          }}
           rows={data}
           columns={columns}
           pageSize={pageSize}

@@ -12,7 +12,12 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     <div style={{ height: "content-fit" }}>
       <Navbar />
       <Box p={2}>
-        <Header title="CRM" subtitle="Spidertracks technical task" />
+        <Header
+          title="STRACKS_CRM"
+          titleVariant="h4"
+          subtitle="Spidertracks technical task"
+          subtitleVariant="h6"
+        />
         <Divider />
         {children}
       </Box>

@@ -8,8 +8,18 @@ import {
 } from "react";
 import { Customer } from "../types/Index";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AppContext = createContext<any>(undefined);
+type CtxType = {
+  isEditing: boolean;
+  currentCustomer: Customer | undefined;
+  setEditMode: (value: boolean) => void;
+  setCustomer: (customer?: Customer) => void;
+  currentCustomerId: number | undefined;
+  currentOppId: number | undefined;
+  setCustomerId: (id: number) => void;
+  setOppId: (id: number) => void;
+};
+
+const AppContext = createContext<CtxType>({} as CtxType);
 type AppProviderProps = {
   children: ReactNode;
 };
@@ -19,8 +29,10 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
   const [currentCustomer, setCurrentCustomer] = useState<
     Customer | undefined
   >();
+  const [currentCustomerId, setCurrentCustomerId] = useState<number>();
+  const [currentOppId, setCurrentOppId] = useState<number>();
 
-  const setCustomer = (customer: Customer) => {
+  const setCustomer = (customer?: Customer) => {
     setCurrentCustomer(customer);
   };
 
@@ -28,14 +40,26 @@ export const AppProvider: FC<AppProviderProps> = ({ children }) => {
     setIsEditing(value);
   };
 
+  const setOppId = (id: number) => {
+    setCurrentOppId(id);
+  };
+
+  const setCustomerId = (id: number) => {
+    setCurrentCustomerId(id);
+  };
+
   const memoizedValue = useMemo(
     () => ({
       isEditing,
       currentCustomer,
       setEditMode,
-      setCustomer
+      setCustomer,
+      currentOppId,
+      currentCustomerId,
+      setOppId,
+      setCustomerId
     }),
-    [currentCustomer, isEditing]
+    [currentCustomer, currentCustomerId, currentOppId, isEditing]
   );
 
   return (

@@ -1,4 +1,4 @@
-import { CustomerStatus, OpportunityStatus } from "../constants";
+import { CustomerStatus } from "../constants";
 
 export interface Customer {
   id: number;
@@ -14,7 +14,7 @@ export interface AddCustomer extends Omit<Customer, "id" | "status"> {
 }
 
 export interface Opportunity {
-  status: OpportunityStatus;
+  status: string;
   customerId: number;
   name: string;
   id: number;

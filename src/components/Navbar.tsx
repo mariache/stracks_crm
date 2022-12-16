@@ -1,4 +1,4 @@
-import { AppBar, Typography, Box, CssBaseline, Tooltip } from "@mui/material";
+import { AppBar, Box, CssBaseline, Tooltip, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { FC } from "react";
@@ -36,12 +36,15 @@ export const Navbar: FC = () => {
           </Link>
         </Tooltip>
         <Tooltip title="Back to customers" arrow>
-          <Link to={routes.customers.basePath} style={{ color: "#FFF" }}>
-            Main page
+          <Link
+            to={routes.customers.basePath}
+            style={{ color: "#FFF", fontVariant: "small-caps" }}
+          >
+            main page
           </Link>
         </Tooltip>
         <Tooltip title="Spidertracks' the basic CRM" arrow>
-          <Typography>Spidertracks </Typography>
+          <Typography>stracks_crm </Typography>
         </Tooltip>
       </Box>
     </AppBar>
