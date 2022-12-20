@@ -3,6 +3,7 @@ import {
   IncorrectOpportunityStatus,
   OpportunityStatus
 } from "../constants";
+import { OppChartData, Opportunity } from "../types/Index";
 
 /**
  *
@@ -43,7 +44,7 @@ export const getColor = (
       return "secondary";
 
     default:
-      return undefined;
+      return "default";
   }
 };
 
@@ -105,3 +106,36 @@ export const isAllDefined = <K extends object>(obj: K): boolean => {
 export const isValidEmail = (email: string) => {
   return /\S+@\S+\.\S+/.test(email);
 };
+
+export function reduceOppToChartData(arr: Opportunity[]): OppChartData[] {
+  const counts: { [key: string]: number } = {};
+
+  arr.forEach(obj => {
+    const { status } = obj;
+    if (counts[status]) {
+      counts[status] += 1;
+    } else {
+      counts[status] = 1;
+    }
+  });
+
+  return Object.entries(counts).map(([status, quantity]) => ({
+    status,
+    quantity
+  }));
+}
+
+export function reduceOppToDataset(arr: Opportunity[]) {
+  const counts: { [key: string]: number } = {};
+
+  arr.forEach(obj => {
+    const { status } = obj;
+    if (counts[status]) {
+      counts[status] += 1;
+    } else {
+      counts[status] = 1;
+    }
+  });
+
+  return Object.entries(counts).map(([status, quantity]) => [status, quantity]);
+}

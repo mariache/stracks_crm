@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { useGetOpportunitiesQuery } from "../services/api";
 
-import { reduceArray, reduceArray1 } from "./utils";
+import { reduceOppToChartData, reduceOppToDataset } from "./utils";
 
 type BarOption = "bar" | "pie";
 
@@ -12,9 +12,9 @@ export const Chart = () => {
   const [chartOption, setChartOption] = useState<BarOption>("pie");
   const { data = [] } = useGetOpportunitiesQuery();
 
-  const chartData = reduceArray(data);
+  const chartData = reduceOppToChartData(data);
 
-  const dataSet = reduceArray1(data);
+  const dataSet = reduceOppToDataset(data);
 
   const dataset = {
     dimensions: ["Opportunity", "score"],
@@ -46,7 +46,6 @@ export const Chart = () => {
       series: [
         {
           type: "pie",
-          // associate the series to be animated by id
           id: "Score",
           radius: [0, "50%"],
           universalTransition: true,

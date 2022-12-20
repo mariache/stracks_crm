@@ -24,3 +24,5 @@ export interface AddOpportunity
   extends Omit<Opportunity, "id" | "status" | "customerId"> {
   status: string;
 }
+
+export type OppChartData = { status: string; quantity: number };

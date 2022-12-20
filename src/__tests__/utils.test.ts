@@ -4,9 +4,12 @@ import {
   getColor,
   getFormattedOpportunitiesStatus,
   isAllDefined,
-  isValidEmail
+  isValidEmail,
+  reduceOppToChartData,
+  reduceOppToDataset
 } from "../components/utils";
 import { CustomerStatus } from "../constants";
+import { testOpportunities } from "../mocks/testOpportunities";
 
 describe("getColor", () => {
   it("returns 'warning' color when called with  CustomerStatus.Lead", () => {
@@ -78,5 +81,38 @@ describe("isAllDefined", () => {
   it("returns true when all properties have values", () => {
     const result = isAllDefined({ id: 1, name: "Sierra" });
     expect(result).toBeTruthy();
+  });
+});
+
+describe("reduceOppToDataset", () => {
+  it("returns array of arrays with oppurtunitiey and number", () => {
+    const result = reduceOppToDataset(testOpportunities);
+    const expectedResult = [
+      ["Closed Won", 1],
+      ["New", 2],
+      ["Closed Lost", 1]
+    ];
+    expect(result).toEqual(expectedResult);
+  });
+});
+
+describe("reduceOppToChartData", () => {
+  it("returns an array of quantity and opportunity status  ", () => {
+    const result = reduceOppToChartData(testOpportunities);
+    const expectedResult = [
+      {
+        quantity: 1,
+        status: "Closed Won"
+      },
+      {
+        quantity: 2,
+        status: "New"
+      },
+      {
+        quantity: 1,
+        status: "Closed Lost"
+      }
+    ];
+    expect(result).toEqual(expectedResult);
   });
 });
