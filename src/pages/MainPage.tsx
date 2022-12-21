@@ -1,4 +1,4 @@
-import { Fab, Tooltip } from "@mui/material";
+import { Fab, Paper, Tooltip } from "@mui/material";
 import { FC, useState } from "react";
 import { Chart } from "../components/Chart";
 import { CustomerModal } from "../components/CustomerModal";
@@ -34,7 +34,16 @@ export const MainPage: FC = () => {
         isLoading={isLoading}
       />
       <CustomerModal open={customerModal} setOpen={setCustomerModal} />
-      <Chart />
+      <Paper
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: 240,
+          m: "20px"
+        }}
+      >
+        <Chart />
+      </Paper>
     </div>
   );
 };

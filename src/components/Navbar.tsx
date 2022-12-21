@@ -1,4 +1,4 @@
-import { AppBar, Box, CssBaseline, Tooltip, Typography } from "@mui/material";
+import { AppBar, Box, CssBaseline, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { FC } from "react";
@@ -43,8 +43,13 @@ export const Navbar: FC = () => {
             main page
           </Link>
         </Tooltip>
-        <Tooltip title="Spidertracks' the basic CRM" arrow>
-          <Typography>stracks_crm </Typography>
+        <Tooltip title="What is it?" arrow>
+          <Link
+            to={routes.customers.about}
+            style={{ color: "#FFF", fontVariant: "small-caps" }}
+          >
+            stracks_crm
+          </Link>
         </Tooltip>
       </Box>
     </AppBar>

@@ -1,68 +1,54 @@
-import { Button } from "@mui/material";
-import ReactEcharts from "echarts-for-react";
-import { useState } from "react";
+import {
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Tooltip
+} from "recharts";
+
+import { Box, CircularProgress } from "@mui/material";
 
 import { useGetOpportunitiesQuery } from "../services/api";
 
-import { reduceOppToChartData, reduceOppToDataset } from "./utils";
-
-type BarOption = "bar" | "pie";
+import { reduceOppToChartData } from "./utils";
 
 export const Chart = () => {
-  const [chartOption, setChartOption] = useState<BarOption>("pie");
-  const { data = [] } = useGetOpportunitiesQuery();
+  const { data = [], isLoading, isFetching } = useGetOpportunitiesQuery();
 
   const chartData = reduceOppToChartData(data);
 
-  const dataSet = reduceOppToDataset(data);
-
-  const dataset = {
-    dimensions: ["Opportunity", "score"],
-    source: dataSet
-  };
-
-  const option = {
-    bar: {
-      dataset,
-      xAxis: {
-        type: "category",
-        data: chartData.map(x => x.status)
-      },
-      yAxis: {
-        type: "value"
-      },
-      series: [
-        {
-          data: chartData.map(x => x.quantity),
-          type: "bar"
-        }
-      ],
-      colorBy: "data",
-      universalTransition: true,
-      animationDurationUpdate: 1000
-    },
-    pie: {
-      dataset: [dataset],
-      series: [
-        {
-          type: "pie",
-          id: "Score",
-          radius: [0, "50%"],
-          universalTransition: true,
-          animationDurationUpdate: 1000
-        }
-      ]
-    }
-  };
+  if (isLoading || isFetching)
+    return (
+      <Box
+        sx={{ display: "flex" }}
+        justifyContent="center"
+        alignItems="center"
+        height={270}
+      >
+        <CircularProgress />
+      </Box>
+    );
 
   return (
-    <>
-      <Button
-        onClick={() => setChartOption(prev => (prev === "pie" ? "bar" : "pie"))}
-      >
-        Change the chart view
-      </Button>
-      <ReactEcharts option={option[chartOption]} />
-    </>
+    <ResponsiveContainer>
+      <BarChart width={730} height={500} data={chartData}>
+        <CartesianGrid stroke="#ccc" />
+        <XAxis dataKey="status" type="category" />
+        <YAxis
+          dataKey="quantity"
+          type="number"
+          domain={[
+            0,
+            chartData.reduce((acc, current) => {
+              return acc > current.quantity ? acc : current.quantity + 1;
+            }, 0)
+          ]}
+        />
+        <Tooltip />
+        <Bar dataKey="quantity" fill="#66a7ed" />
+      </BarChart>
+    </ResponsiveContainer>
   );
 };

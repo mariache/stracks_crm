@@ -1,3 +1,13 @@
+// @TO DO if necessary
+export const OPP_STATUS_NU = {
+  closedLost: "Closed Lost",
+  closedWon: "Closed Won",
+  new: "New"
+} as const;
+
+// @TO DO if necessary
+export type OpportunityStatusNU = keyof typeof OPP_STATUS_NU;
+
 export enum OpportunityStatus {
   ClosedLost = "Closed Lost",
   ClosedWon = "Closed Won",
@@ -15,3 +25,10 @@ export enum CustomerStatus {
   Active = "active",
   Lead = "lead"
 }
+
+// @TO DO if necessary
+export const Labels: { [key: string]: string } = {
+  new: "New",
+  closedWon: "Closed Won",
+  closedLost: "Closed Lost"
+};
