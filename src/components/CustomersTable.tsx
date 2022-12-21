@@ -21,6 +21,7 @@ import { StatusChip } from "./StatusChip";
 import { capitalizeFirst } from "./utils";
 import { ErrorComponent } from "./ErrorComponent";
 import { useCtx } from "../context/AppContext";
+import { NowRowComponent } from "./NowRowComponent";
 
 type CustomerTableProps = {
   setOpen: () => void;
@@ -185,6 +186,9 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
           }}
           rows={data}
           columns={columns}
+          components={{
+            NoRowsOverlay: NowRowComponent
+          }}
           pageSize={pageSize}
           onPageSizeChange={selectedPageSize => setPageSize(selectedPageSize)}
         />

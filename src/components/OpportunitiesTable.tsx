@@ -8,6 +8,7 @@ import { Opportunity } from "../types/Index";
 import { StatusChip } from "./StatusChip";
 import { getFormattedOpportunitiesStatus } from "./utils";
 import { ErrorComponent } from "./ErrorComponent";
+import { NowRowComponent } from "./NowRowComponent";
 
 type OpportunitiesTableProps = {
   data: Opportunity[];
@@ -102,6 +103,9 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
         <DataGrid
           loading={isLoading || isFetching}
           rows={data}
+          components={{
+            NoRowsOverlay: NowRowComponent
+          }}
           columns={columns}
         />
       </Box>
