@@ -1,7 +1,19 @@
-import { FC } from "react";
-import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
-import { useGetCustomersQuery } from "../services/api";
+import { FC, useState } from "react";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColumns,
+  GridRenderCellParams,
+  GridRowId,
+  GridRowParams
+} from "@mui/x-data-grid";
+import { Alert, Box, Snackbar } from "@mui/material";
+import Delete from "@mui/icons-material/Delete";
+import Edit from "@mui/icons-material/Edit";
+import {
+  useDeleteCustomerOpportunityMutation,
+  useGetCustomersQuery
+} from "../services/api";
 
 import { Header } from "./Header";
 import { Opportunity } from "../types/Index";
@@ -9,6 +21,7 @@ import { StatusChip } from "./StatusChip";
 import { getFormattedOpportunitiesStatus } from "./utils";
 import { ErrorComponent } from "./ErrorComponent";
 import { NowRowComponent } from "./NowRowComponent";
+import { useCtx } from "../context/AppContext";
 
 type OpportunitiesTableProps = {
   data: Opportunity[];
@@ -24,8 +37,28 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
   isError
 }) => {
   const { data: customersData = [] } = useGetCustomersQuery();
+  const { setEditMode, setOpportunity, currentOpportunity, setOpenOpModal } =
+    useCtx();
+
+  const [onHandleDelete] = useDeleteCustomerOpportunityMutation();
+
+  const [showToast, setShowToast] = useState<boolean>(false);
 
   if (isError) return <ErrorComponent />;
+
+  const onDelete = (id: GridRowId, opId: number) => {
+    // eslint-disable-next-line no-alert
+    if (confirm("Are you sure?")) {
+      onHandleDelete({ id, opId });
+      setShowToast(true);
+    }
+  };
+
+  const onEditClick = (opportunity: Opportunity) => {
+    setOpenOpModal(true);
+    setEditMode(true);
+    setOpportunity(opportunity);
+  };
 
   const columns: GridColumns = [
     { field: "id", headerName: "ID" },
@@ -77,6 +110,40 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
           </Box>
         );
       }
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      getActions: (params: GridRowParams<Opportunity>) => {
+        return [
+          <GridActionsCellItem
+            key="editCustomerAction"
+            showInMenu
+            label="Edit"
+            className="textPrimary"
+            onClick={() => {
+              onEditClick(params.row);
+            }}
+            color="inherit"
+            icon={<Edit />}
+          />,
+          <GridActionsCellItem
+            key="deleteCustomerAction"
+            showInMenu
+            onClick={() => {
+              if (currentOpportunity) {
+                onDelete(params.id, currentOpportunity.id);
+              }
+            }}
+            label="Delete"
+            color="inherit"
+            icon={<Delete />}
+          />
+        ];
+      }
     }
   ];
 
@@ -102,12 +169,28 @@ export const OpportunitiesTable: FC<OpportunitiesTableProps> = ({
       >
         <DataGrid
           loading={isLoading || isFetching}
+          onSelectionModelChange={ids => {
+            const selected = data.find(customer => customer.id === ids[0]);
+            if (selected) {
+              setOpportunity(selected);
+            }
+          }}
           rows={data}
           components={{
             NoRowsOverlay: NowRowComponent
           }}
           columns={columns}
         />
+        {/** @TO DO create a new component */}
+        <Snackbar
+          open={showToast}
+          autoHideDuration={3000}
+          onClose={() => setShowToast(false)}
+        >
+          <Alert severity="success" sx={{ width: "100%" }}>
+            Opportunity has been removed!
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );

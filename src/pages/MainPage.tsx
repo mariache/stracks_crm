@@ -1,9 +1,10 @@
 import { Fab, Paper, Tooltip } from "@mui/material";
-import { FC, useState } from "react";
+import { FC } from "react";
+import { Card } from "../components/Card";
 import { Chart } from "../components/Chart";
-import { CustomerModal } from "../components/CustomerModal";
 import { CustomersTable } from "../components/CustomersTable";
 import { OpportunitiesTable } from "../components/OpportunitiesTable";
+import { useCtx } from "../context/AppContext";
 
 import { useGetOpportunitiesQuery } from "../services/api";
 
@@ -14,15 +15,18 @@ export const MainPage: FC = () => {
     isFetching,
     isError
   } = useGetOpportunitiesQuery();
-  const [customerModal, setCustomerModal] = useState(false);
+
+  const { setOpenCustomerModal } = useCtx();
+
   return (
     <div style={{}}>
-      <CustomersTable setOpen={() => setCustomerModal(true)} />
+      <Card />
+      <CustomersTable />
       <Tooltip title="Add new customer" arrow>
         <Fab
           color="primary"
           aria-label="add"
-          onClick={() => setCustomerModal(true)}
+          onClick={() => setOpenCustomerModal(true)}
         >
           Add
         </Fab>
@@ -33,7 +37,6 @@ export const MainPage: FC = () => {
         isFetching={isFetching}
         isLoading={isLoading}
       />
-      <CustomerModal open={customerModal} setOpen={setCustomerModal} />
       <Paper
         sx={{
           display: "flex",

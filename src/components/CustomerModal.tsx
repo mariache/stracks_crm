@@ -11,7 +11,7 @@ import {
   MenuItem,
   Select
 } from "@mui/material";
-import { Dispatch, FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { CustomerStatus } from "../constants";
 import { useCtx } from "../context/AppContext";
 import {
@@ -19,11 +19,6 @@ import {
   useUpdateCustomerMutation
 } from "../services/api";
 import { AddCustomer, Customer } from "../types/Index";
-
-type CustomerModalProps = {
-  open: boolean;
-  setOpen: Dispatch<React.SetStateAction<boolean>>;
-};
 
 const EMPTY_CUSTOMER = {
   name: "",
@@ -33,14 +28,16 @@ const EMPTY_CUSTOMER = {
   createdDate: new Date()
 };
 
-export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
+export const CustomerModal: FC = () => {
   const [addCustomer] = useAddCustomerMutation();
   const [updateCustomer] = useUpdateCustomerMutation();
   const {
     isEditing: isEditMode,
     currentCustomer,
     setCustomer: setCurrentCustomer,
-    setEditMode
+    setEditMode,
+    setOpenCustomerModal,
+    openCustomerModal
   } = useCtx();
   const [customer, setCustomer] = useState<AddCustomer | Customer | undefined>(
     EMPTY_CUSTOMER
@@ -69,7 +66,10 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
   );
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog
+      open={openCustomerModal}
+      onClose={() => setOpenCustomerModal(false)}
+    >
       <DialogTitle>{`${isEditMode ? "Edit" : "Add new"} customer`}</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -165,7 +165,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
             }
 
             setCustomer(EMPTY_CUSTOMER);
-            setOpen(false);
+            setOpenCustomerModal(false);
             setCurrentCustomer();
             setEditMode(false);
           }}
@@ -176,7 +176,7 @@ export const CustomerModal: FC<CustomerModalProps> = ({ open, setOpen }) => {
           variant="outlined"
           color="error"
           onClick={() => {
-            setOpen(false);
+            setOpenCustomerModal(false);
             setCustomer(EMPTY_CUSTOMER);
             setCurrentCustomer();
             setEditMode(false);

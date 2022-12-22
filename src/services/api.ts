@@ -49,11 +49,18 @@ export const api = createApi({
       query: () => ({ url: "/opportunities" }),
       providesTags: result => ["Opportunity"]
     }),
-    addCustomerOpportunitiy: builder.mutation({
+    addCustomerOpportunity: builder.mutation({
       query: ({ id, ...opportunity }) => ({
         url: `/customers/${id}/opportunities`,
         method: "POST",
         body: opportunity
+      }),
+      invalidatesTags: ["Opportunity"]
+    }),
+    deleteCustomerOpportunity: builder.mutation({
+      query: ({ id, opId }) => ({
+        url: `/customers/${id}/opportunities/${opId}`,
+        method: "DELETE"
       }),
       invalidatesTags: ["Opportunity"]
     })
@@ -68,5 +75,6 @@ export const {
   useDeleteCustomerMutation,
   useUpdateCustomerMutation,
   useGetCustomerOpportunitiesQuery,
-  useAddCustomerOpportunitiyMutation
+  useAddCustomerOpportunityMutation,
+  useDeleteCustomerOpportunityMutation
 } = api;

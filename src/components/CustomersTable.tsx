@@ -23,14 +23,10 @@ import { ErrorComponent } from "./ErrorComponent";
 import { useCtx } from "../context/AppContext";
 import { NowRowComponent } from "./NowRowComponent";
 
-type CustomerTableProps = {
-  setOpen: () => void;
-};
-
-export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
+export const CustomersTable: FC = () => {
   const { data = [], isLoading, isFetching, isError } = useGetCustomersQuery();
   const [onHandleDelete] = useDeleteCustomerMutation();
-  const { setEditMode, setCustomer } = useCtx();
+  const { setEditMode, setCustomer, setOpenCustomerModal } = useCtx();
 
   const [pageSize, setPageSize] = useState<number>(25);
   const [showToast, setShowToast] = useState<boolean>(false);
@@ -47,7 +43,7 @@ export const CustomersTable: FC<CustomerTableProps> = ({ setOpen }) => {
   };
 
   const onEditClick = (customer: Customer) => {
-    setOpen();
+    setOpenCustomerModal(true);
     setEditMode(true);
     setCustomer(customer);
   };

@@ -33,7 +33,7 @@ export const Chart = () => {
 
   return (
     <ResponsiveContainer>
-      <BarChart width={730} height={500} data={chartData}>
+      <BarChart data={chartData}>
         <CartesianGrid stroke="#ccc" />
         <XAxis dataKey="status" type="category" />
         <YAxis

@@ -11,30 +11,23 @@ import {
   DialogActions,
   Button
 } from "@mui/material";
-import React, { Dispatch, FC, useState } from "react";
-import { OpportunityStatus } from "../constants";
-import { useAddCustomerOpportunitiyMutation } from "../services/api";
+import { FC, useState } from "react";
+import { IncorrectOpportunityStatus, OpportunityStatus } from "../constants";
+import { useCtx } from "../context/AppContext";
+import { useAddCustomerOpportunityMutation } from "../services/api";
 import { AddOpportunity } from "../types/Index";
-
-type OpportunityModalProps = {
-  open: boolean;
-  customerId: number;
-  setOpen: Dispatch<React.SetStateAction<boolean>>;
-};
 
 const EMPTY_OPPORTUNITY = {
   name: "",
   status: ""
 };
 
-export const OpportunityModal: FC<OpportunityModalProps> = ({
-  open,
-  setOpen,
-  customerId
-}) => {
-  const [addOpportunity] = useAddCustomerOpportunitiyMutation();
+export const OpportunityModal: FC = () => {
+  const [addOpportunity] = useAddCustomerOpportunityMutation();
   const [opportunity, setOpportunity] =
     useState<AddOpportunity>(EMPTY_OPPORTUNITY);
+
+  const { currentCustomer, openOpModal, setOpenOpModal } = useCtx();
 
   const newOpportunityIsValid = !!(
     opportunity &&
@@ -43,7 +36,7 @@ export const OpportunityModal: FC<OpportunityModalProps> = ({
   );
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog open={openOpModal} onClose={() => setOpenOpModal(false)}>
       <DialogTitle>Add new opportunity</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -73,13 +66,13 @@ export const OpportunityModal: FC<OpportunityModalProps> = ({
               setOpportunity({ ...opportunity, status: event.target.value })
             }
           >
-            <MenuItem value={OpportunityStatus.ClosedLost}>
+            <MenuItem value={IncorrectOpportunityStatus.ClosedLost}>
               {OpportunityStatus.ClosedLost}
             </MenuItem>
-            <MenuItem value={OpportunityStatus.ClosedWon}>
+            <MenuItem value={IncorrectOpportunityStatus.ClosedWon}>
               {OpportunityStatus.ClosedWon}
             </MenuItem>
-            <MenuItem value={OpportunityStatus.New}>
+            <MenuItem value={IncorrectOpportunityStatus.New}>
               {OpportunityStatus.New}
             </MenuItem>
           </Select>
@@ -91,13 +84,15 @@ export const OpportunityModal: FC<OpportunityModalProps> = ({
           color="primary"
           variant="outlined"
           onClick={() => {
-            addOpportunity({
-              name: opportunity?.name,
-              status: opportunity?.status,
-              customerId: Number(customerId)
-            });
+            if (currentCustomer) {
+              addOpportunity({
+                name: opportunity?.name,
+                status: opportunity?.status,
+                customerId: Number(currentCustomer.id)
+              });
+            }
 
-            setOpen(false);
+            setOpenOpModal(false);
             setOpportunity(EMPTY_OPPORTUNITY);
           }}
         >
@@ -107,7 +102,7 @@ export const OpportunityModal: FC<OpportunityModalProps> = ({
           variant="outlined"
           color="error"
           onClick={() => {
-            setOpen(false);
+            setOpenOpModal(false);
             setOpportunity(EMPTY_OPPORTUNITY);
           }}
         >
